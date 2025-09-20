@@ -1,0 +1,57 @@
+// Imágenes del carrusel
+model CarruselImagen {
+	id        Int      @id @default(autoincrement())
+	url       String
+	orden     Int      @default(0)
+	creadoEn  DateTime @default(now())
+}
+datasource db {
+	provider = "sqlite"
+	url      = env("DATABASE_URL")
+}
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+// Modelo de productos para el panel admin
+model Producto {
+	id        Int     @id @default(autoincrement())
+	nombre    String
+	precio    Float
+	imagen    String
+	categoria String
+	descripcion String?
+	descuento Float? // Porcentaje de descuento opcional
+	agotado   Boolean @default(false)
+}
+
+// Configuración visual de la web (solo un registro)
+enum FondoActivo {
+	imagen
+	video
+	ninguno
+}
+
+model ConfiguracionVisual {
+	id           Int    @id @default(autoincrement())
+	imagenFondo  String?
+	videoFondo   String? // URL o base64 de video
+	colorPrincipal String? // Hex o nombre de color
+	fondoActivo   FondoActivo @default(ninguno)
+	logo          String?
+	favicon       String? // URL del favicon
+	tituloPagina  String? // Título de la web
+	metaDescripcion String? // Meta descripción SEO
+	metaKeywords  String? // Palabras clave SEO
+	openGraphImg  String? // Imagen para compartir en redes
+	themeColor    String? // Color del navegador
+	fuente        String? // Fuente principal
+	banner        String? // Imagen/banner principal
+	idioma        String? // Código de idioma principal
+	enlacesRapidos String? // JSON de enlaces rápidos
+	backup        String? // JSON de backup de config
+	metodosPago   String? // JSON de métodos de pago [{nombre, imagen}]
+	textoOferta   String? // Texto de la oferta especial
+	actualizado   DateTime @updatedAt
+}
